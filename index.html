@@ -1,222 +1,246 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Google</title>
-	<link rel="icon"  href="favicon.ico">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <title>Google</title>
 </head>
 <style>
-*{
-	padding: 0;
-	margin:0;
-	box-sizing: border-box;
-	text-decoration: none;
-	font-family: arial, sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #555;
 }
+
 body {
-	display: flex;
-	flex-direction: column;
-	min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  font-family: Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
+
 nav {
-	display: flex;
-	align-items: left;
-	justify-content: flex-end;
-	margin-right: 30px;
-	margin-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 10px;
+  height: 60px;
 }
-nav a {
-	font-size: 13px;
-	display: inline-block;
-	line-height: 24px;
-	font-weight: 400;
-	color: rgb(0,0,0, 0.87);
-	cursor: pointer;
-	padding: 5px 6.7px
+
+ul {
+  display: flex;
+  list-style: none;
+  align-items: center;
 }
-nav a:hover {
-	text-decoration: underline;
-	opacity: .85;
+
+li {
+  text-align: center;
+  padding: 14px 12px;
 }
-nav img {
-	width: 34px;
-	padding: 5px;
-	margin: auto 7px;
-	cursor: pointer;
+
+a {
+  text-decoration: none;
 }
-nav img:hover {
-	opacity: .8;
+
+li a:hover {
+  text-decoration: underline;
 }
-nav button {
-	border: 1px solid #4285f4;
-	font-weight: bold;
-	outline: none;
-	background: #4285f4;
-	color: #fff;
-	padding: 7px 12px;
-	border-radius: 3px;
-	margin-left: 7px;
-	cursor: pointer;
+
+.small-text {
+  font-size: 0.9rem;
 }
-.section-1 {
-	flex: 1;
+
+.menu-bg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
-.section-1 .logo {
-	display: flex;
-	margin: 0px auto;
-	margin-top: 107px;
+
+.menu-bg:hover {
+  background-color: rgba(100, 100, 100, 0.1);
+  cursor: pointer;
 }
-.s-box {
-	width: 580px;
-	margin: 0px auto;
-	position: relative;
-	margin-top: -8px;
-	text-align: center;
+
+.menu-button {
+  width: 15px;
 }
-.s-box .s-input {
-	display: block;
-	border: 1px solid #ddd;
-	color: rgba(0,0,0, 0.87);
-	font-size: 16px;
-	padding: 13px;
-	padding-left: 45px;
-	border-radius: 25px;
-	width: 100%;
-	transition: box-shadow 100ms;
-	outline: none;
+
+.profile-pic {
+  margin-top: 6px;
+  border-radius: 50%;
+  width: 100%;
 }
-.s-box  .s-input:hover {
-	border: 1px solid #fff;
-	box-shadow: 0 0 2px rgba(0, 0, 0, 0.05), 
-				0 0 2px rgba(0, 0, 0, 0.05),
-				0 0 3px rgba(0, 0, 0, 0.05),
-				0 0 4px rgba(0, 0, 0, 0.05), 
-				0 0 5px rgba(0, 0, 0, 0.05), 
-				0 0 4px rgba(0, 0, 0, 0.05), 
-				0 0 5px rgba(0, 0, 0, 0.05)
+
+.search-wrapper {
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.s-box .search-icon {
-	width: 20px;
-	opacity: .4;
-	position: absolute;
-	top: 13px;
-	left: 14px;
+
+form {
+  position: relative;
+  margin-top: 30px;
 }
-.s-box .vs-icon {
-	width: 14px;
-	position: absolute;
-	top: 13px;
-	right: 24px;
+
+input {
+  width: 580px;
+  height: 45px;
+  padding-left: 50px;
+  font-size: 1.2rem;
+  border-radius: 45px;
+  border: 1px solid #d3d3d3;
 }
-.s-btn {
-	border: 1px solid transparent;
-	padding: 9px 15px;
-	color: #666;
-	font-size: 14px;
-	border-radius: 4px;
-	display: inline-block;
-	margin-right: 10px;
-	margin-top: 28px;
-	outline: none;
-	cursor: pointer;
-	transition: border-color 100ms;
+
+input:hover {
+  box-shadow: 0 1px 3px 1px rgba(201, 201, 201, 0.5);
 }
-.s-btn:hover {
-	border: 1px solid #aaa;
+
+input:focus {
+  outline: none;
 }
-.lang {
-	margin-top: 30px;
-	text-align: center;
-	font-size: 13px;
-	color: #111;
+
+.search {
+  width: 15px;
+  position: absolute;
+  top: 15px;
+  left: 15px;
 }
-.lang a {
-	margin-left: 5px;
-	color: #1a0dab;
+
+.mic {
+  width: 15px;
+  position: absolute;
+  top: 12px;
+  left: 540px;
 }
-.lang a:hover {
-	text-decoration: underline;
+
+.buttons {
+  width: 350px;
+  margin: auto;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
 }
+
+button {
+  border: 1px solid transparent;
+  padding: 8px 12px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+}
+
+button:hover {
+  border: 1px solid #eee;
+  box-shadow: 0 0 2px 1px rgba(189, 189, 189, 0.5);
+  cursor: pointer;
+}
+
 footer {
-	background: #f2f2f2;
+  width: 100%;
+  background-color: #f2f2f2;
 }
-footer h4 {
-	color: rgba(0,0,0, 0.54);
-	font-size: 15px;
-	line-height: 39.5px;
-	font-weight: 400;
-	padding-left: 29px;
-	border: 1px solid #eee;
+
+.panel {
+  border-bottom: 1px solid #ddd;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
 }
-footer a {
-	color: #5f6368;
-	display: flex;
-	padding: 12px 11.3px;
-	font-size: 14px;
+
+.panel > * {
+  flex-basis: 33%;
 }
-footer a:hover {
-	text-decoration: underline;
+
+p {
+  color: grey;
+  padding-left: 13px;
 }
-.links {
-	border-top: 1px solid #ddd;
-	display: flex;
+
+.carbon {
+  text-align: center;
 }
-.link-1 {
-	padding-left: 18.7px;
-	flex: 1;
+
+.leaf {
+  width: 12px;
 }
-.link-2 {
-	padding-right: 18.7px;
-}</style>
+
+.right {
+  justify-content: flex-end;
+} </style>
 <body>
-      <nav>
-      	<a href="https://docs.google.com/forms/d/e/1FAIpQLSfA41f9vJJLCt2EkCtJLYSdgkecshNAy31AQxUFrNCFSBIb_A/viewform?usp=sf_link">Franchise</a>
-      	<a href="https://docs.google.com/forms/d/e/1FAIpQLScUOqp4r8LYk-PymFPZAXRVa3yey1xCJtIUF09UFFvENG1dzg/viewform?usp=sf_link">Team Leader</a>
-      	<button>Home</button>
-      </nav>
-      <section class="section-1">
-      	<img src="https://i.ibb.co/nM2jYDZ/logo-demand-karo.png" class="logo">
-        </section>
-       <!-- filter form section starts -->
-<section class="form-container s-box" data-kos="zoom-in">
+  <header>
+    <nav>
+      <ul>
+        <li><a href=#>About</a></li>
+        <li><a href=#>Store</a></li>
+      </ul>
+      <ul>
+        <li><a class="small-text" href=#>Gmail</a></li>
+        <li><a class="small-text" href=#>Images</a></li>
+        <li class="menu-bg"><img
+          class="menu-button"
+          src="images/menu.png"
+          alt="menu button">
+        </li>
+        <li><img
+          class="profile-pic"
+          src="images/profile.png"
+          alt="profile pic">
+        </li>
+      </ul>
+    </nav>
+  </header>
 
-    <script type="text/javascript">var submitted=false;</script>
-    <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfKJStU-w-Hd5FxPe4GFa9di_Nh28scXD1ZIhEy6uyrWLY1rw/formResponse" target="hidden_iframe" onsubmit="submitted=true" method="POST">
-
-        <div class="inputBox">
-            <span class="search-icon"></span>
-            <input type="text" placeholder="Aapki Demand Kya Hai? " name="entry.906382950" class="s-input">
-        </div>
-
-        <input type="submit" value="DEMAND KARO" class="btn s-btn" style="color:#282457;background:#29B573;font-size: 1rem;">
-        <a href="https://datastudio.google.com/reporting/b66614cd-86e9-447e-a8ec-09c909c913d4" class="btn s-btn" style="color:#29B573;background:#282457;font-size: 1rem;">SHOPPING</a>
-
+  <section class="search-wrapper">
+    <img
+      class="logo"
+      src="images/logo.png"
+      alt="logo">
+    <form>
+      <img
+        class="search"
+        src="images/search.png">
+      <img
+        class="mic"
+        src="images/mic.png">
+      <input type="text">
+      <div class="buttons">
+        <button type="button">Google Search</button>
+        <button type="button">I'm Feeling Lucky</button>
+      </div>
     </form>
-</section>
-<!-- filter form section ends -->     			
-      	<div class="lang">
-      		DemandKaro offered in:
-      		<a href="https://lookerstudio.google.com/reporting/351160d3-f30e-47b8-a19d-74d798a18cf3/page/g2itB">Dashboard</a>
-      		<a href="#">Hindi</a>
-      	</div>
-       <br> </br>
-      <footer>
-      	<h4>India</h4>
-      	<div class="links">
-      		<div class="link-1">
-      			<a href="https://lookerstudio.google.com/reporting/160c9842-e0c9-49cb-8572-1b355cda5781/page/g2itB">Advertising</a>
-      			<a href="#">Business</a>
-      			<a href="#">About</a>
-      			<a href="#">How Search works</a>
-      		</div>
-      		<div class="link-2">
-      			<a href="#">Privacy</a>
-      			<a href="#">Terms</a>
-      			<a href="#">Settings</a>
-      		</div>
-      	</div>
-      </footer>
+  </section>
+
+  <footer>
+    <div class="panel">
+      <p>United Kingdom</p>
+    </div>
+    <div class="panel">
+      <ul>
+        <li><a href=#>Advertising</a></li>
+        <li><a href=#>Business</a></li>
+        <li><a href=#>How Search Works</a></li>
+      </ul>
+      <div class="carbon">
+        <img
+          class="leaf"
+          src="images/leaf.png"
+          alt="leaf">
+        <a href=#>Carbon neutral since 2007</a>
+      </div>
+      <ul class="right">
+        <li><a href=#>Privacy</a></li>
+        <li><a href=#>Terms</a></li>
+        <li><a href=#>Settings</a></li>
+      </ul>
+    </div>
+  </footer>
 
 </body>
 </html>
