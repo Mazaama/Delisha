@@ -89,6 +89,26 @@ nav button {
 	transition: box-shadow 100ms;
 	outline: none;
 }
+.search-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0px;
+}
+
+.mic-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 13px;
+}
+
+.search-icon img,
+.mic-icon img {
+  width: 20px;
+  height: 20px;
+}
+
 .s-box  .s-input:hover {
 	border: 1px solid #fff;
 	box-shadow: 0 0 2px rgba(0, 0, 0, 0.05), 
@@ -189,9 +209,11 @@ footer a:hover {
     <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfKJStU-w-Hd5FxPe4GFa9di_Nh28scXD1ZIhEy6uyrWLY1rw/formResponse" target="hidden_iframe" onsubmit="submitted=true" method="POST">
 
         <div class="inputBox">
-            <span class="search-icon"></span>
-            <input type="text" placeholder="Aapki Demand Kya Hai? " name="entry.906382950" class="s-input">
-        </div>
+  <span class="search-icon"><img src="https://i.ibb.co/jWvK8Dx/search-2.png" alt="Search"></span>
+  <input type="text" placeholder="Aapki Demand Kya Hai? " name="entry.906382950" class="s-input">
+  <span class="mic-icon"><img src="https://i.ibb.co/NKB3P27/mic.png" alt="Microphone"></span>
+</div>
+
 
         <input type="submit" value="DEMAND KARO" class="btn s-btn" style="color:#282457;background:#29B573;font-size: 1rem;">
         <a href="https://datastudio.google.com/reporting/b66614cd-86e9-447e-a8ec-09c909c913d4" class="btn s-btn" style="color:#29B573;background:#282457;font-size: 1rem;">SHOPPING</a>
