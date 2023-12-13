@@ -1,19 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEMAND KARO</title><link rel="apple-touch-icon" href="https://i.ibb.co/Nmfkfwt/logo-demand-karo-Copy.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/kos/2.3.4/kos.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-    <!-- font awesome cdn link  -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- custom css file cdn link  -->
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<style>
-*{
+    <title>Google</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <style>
+        /* Your existing styles go here */
+
+        @media only screen and (max-width: 768px) {
+            /* Styles for screens up to 768px wide (typical tablets and small laptops) */
+            nav {
+                justify-content: center;
+                margin-right: 0;
+                margin-top: 10px;
+            }
+            nav a {
+                padding: 5px;
+            }
+            .section-1 .logo {
+                margin-top: 50px;
+            }
+            .s-box {
+                width: 90%;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            /* Styles for screens up to 480px wide (typical smartphones) */
+            nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav button {
+                margin-top: 10px;
+            }
+            .section-1 .logo {
+                margin-top: 80px;
+            }
+            .s-box {
+                width: 90%;
+            }
+        }
+        
+        *{
 	padding: 0;
 	margin:0;
 	box-sizing: border-box;
@@ -174,9 +204,11 @@ footer a:hover {
 }
 .link-2 {
 	padding-right: 18.7px;
-}</style>
+}
+    </style>
+</head>
 <body>
-      <nav>
+    <nav>
       	<a href="https://docs.google.com/forms/d/e/1FAIpQLSfA41f9vJJLCt2EkCtJLYSdgkecshNAy31AQxUFrNCFSBIb_A/viewform?usp=sf_link">Franchise</a>
       	<a href="https://docs.google.com/forms/d/e/1FAIpQLScUOqp4r8LYk-PymFPZAXRVa3yey1xCJtIUF09UFFvENG1dzg/viewform?usp=sf_link">Team Leader</a>
       	<button>Home</button>
@@ -223,6 +255,5 @@ footer a:hover {
       		</div>
       	</div>
       </footer>
-
 </body>
 </html>
