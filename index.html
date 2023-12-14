@@ -205,12 +205,39 @@ footer a:hover {
   /* Adjust the image height if desired */
   height: auto;
 }
+@keyframes moveRightToLeft {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    .moving-image {
+      position: absolute;
+      animation: moveRightToLeft 5s linear infinite; /* Adjust the duration and timing function as needed */
+    }
+    .moving-image {
+      position: absolute;
+      top: 90%; /* Adjust the vertical position */
+      left: 50%; /* Adjust the horizontal position */
+      transform: translate(-50%, -50%); /* Center the image */
+      animation: moveRightToLeft 5s linear infinite; /* Adjust the duration and timing function as needed */
+    }
+
+    .moving-image img {
+      width: 80px; /* Set the desired width */
+      height: auto; /* Maintain aspect ratio */
+    }
 </style>
 <body>
       <nav>
       	<a href="https://docs.google.com/forms/d/e/1FAIpQLSfA41f9vJJLCt2EkCtJLYSdgkecshNAy31AQxUFrNCFSBIb_A/viewform?usp=sf_link">Franchise</a>
       	<a href="https://docs.google.com/forms/d/e/1FAIpQLScUOqp4r8LYk-PymFPZAXRVa3yey1xCJtIUF09UFFvENG1dzg/viewform?usp=sf_link">Team Leader</a>
-      	<button href="https://lookerstudio.google.com/reporting/351160d3-f30e-47b8-a19d-74d798a18cf3/page/g2itB">Dashboard</button>
+      	<button onclick="window.location.href='https://lookerstudio.google.com/reporting/351160d3-f30e-47b8-a19d-74d798a18cf3/page/g2itB'">
+  Dashboard
+</button>
       </nav>
       <br> </br>
       <br> </br>
@@ -237,26 +264,31 @@ footer a:hover {
       		DemandKaro offered in:
       		<a href="https://lookerstudio.google.com/reporting/351160d3-f30e-47b8-a19d-74d798a18cf3/page/g2itB">Dashboard</a>
       		<a href="#">Hindi</a>
+            <br> </br>
+       <br> </br>
+       <br> </br>
+       <br> </br>
+       <br> </br>
+       <br> </br>
       	</div>
-       <br> </br>
-       <br> </br>
-       <br> </br>
-       <br> </br>
-       <br> </br>
-       <br> </br>
+       <div class="moving-image">
+    <img src="https://pngimg.com/d/door_PNG17560.png" alt="Moving Image"></img>
+    <img src="https://pngimg.com/d/door_PNG17560.png" alt="Moving Image"></img>
+    <img src="https://pngimg.com/d/door_PNG17560.png" alt="Moving Image"></img>
+    
+    
+  </div>
       <footer>
       	<h4>India</h4>
       	<div class="links">
       		<div class="link-1">
       			<a href="https://lookerstudio.google.com/reporting/160c9842-e0c9-49cb-8572-1b355cda5781/page/g2itB">Advertising</a>
-      			<a href="#">Business</a>
-      			<a href="#">About</a>
-      			<a href="#">How Search works</a>
+      			
       		</div>
       		<div class="link-2">
+            <a href="#">About</a>
       			<a href="#">Privacy</a>
       			<a href="#">Terms</a>
-      			<a href="#">Settings</a>
       		</div>
       	</div>
       </footer>
