@@ -35,6 +35,8 @@
         .product-image img {
             width: 100%;
             height: auto;
+            display: block;
+            margin: 0 auto;
         }
 
         .product-info {
@@ -223,6 +225,18 @@
         @media (max-width: 480px) {
             .product-card {
                 flex: 1 1 100%; /* Fit 1 item per row on very small screens */
+                max-width: 100%; /* Ensure it doesn't exceed the screen width */
+                margin: 0 10px; /* Add some margin for spacing */
+            }
+
+            .product-image img {
+                width: 100%; /* Image scales to fit container */
+                height: auto;
+                margin: 0 auto;
+            }
+
+            .product-info {
+                padding: 10px; /* Reduce padding for small screens */
             }
 
             #cart-button {
@@ -231,19 +245,13 @@
             }
 
             #cart-sidebar {
-                width: 100%;
+                width: 90%; /* Reduce width for better accessibility */
             }
 
             #search-input {
                 font-size: 0.9em;
             }
         }
-@media (max-width: 768px) {
-  #cart-sidebar.active {
-    right: 0;
-    width: 100%; /* Add this rule */
-  }
-}
     </style>
 </head>
 <body>
@@ -686,7 +694,6 @@
 </div>
 
 
-
         <!-- Add more product cards here -->
     </div>
 
@@ -708,97 +715,70 @@
     <script>
         let cart = [];
 
-        // Update price based on selected size
-        function updatePrice(priceElementId, selectedPrice) {
-            document.getElementById(priceElementId).innerText = '₹' + selectedPrice;
+        function searchProducts() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const products = document.querySelectorAll('.product-card');
+
+            products.forEach(product => {
+                const name = product.dataset.name.toLowerCase();
+                if (name.includes(searchTerm)) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
         }
 
-        // Add product to cart
+        function updatePrice(priceId, price) {
+            document.getElementById(priceId).innerText = `₹${price}`;
+        }
+
         function addToCart(productId) {
-            const product = {
-                id: productId,
-                name: document.querySelector(`.product-card:nth-child(${productId}) .product-title`).innerText,
-                price: document.getElementById(`size-${productId}`).value,
-                quantity: document.getElementById(`qty-${productId}`).value,
-                size: document.getElementById(`size-${productId}`).selectedOptions[0].text.split(' ')[0],
-            };
+            const productCard = document.querySelector(`.product-card:nth-child(${productId})`);
+            const title = productCard.querySelector('.product-title').innerText;
+            const price = parseFloat(productCard.querySelector('.product-price').innerText.replace('₹', ''));
+            const quantity = parseInt(productCard.querySelector('.product-quantity input').value);
 
-            cart.push(product);
-            updateCartCount();
-            renderCart();
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({ id: productId, title, price, quantity });
+            }
+
+            updateCart();
         }
 
-        // Update cart item count
-        function updateCartCount() {
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
             const cartCount = document.getElementById('cart-count');
-            cartCount.innerText = cart.length;
-        }
-
-        // Render cart items
-        function renderCart() {
-            const cartContainer = document.getElementById('cart-items');
-            cartContainer.innerHTML = '';
+            const cartTotal = document.getElementById('cart-total');
+            
+            cartItems.innerHTML = '';
             let total = 0;
-
-            cart.forEach((item, index) => {
+            cart.forEach(item => {
                 const itemTotal = item.price * item.quantity;
                 total += itemTotal;
 
-                cartContainer.innerHTML += `
-                    <div class="cart-item">
-                        <p>${item.name} (${item.size}) - ₹${item.price} x ${item.quantity}</p>
-                        <button onclick="removeFromCart(${index})">Remove</button>
-                    </div>
+                const itemElement = document.createElement('div');
+                itemElement.innerHTML = `
+                    <h4>${item.title}</h4>
+                    <p>₹${item.price} x ${item.quantity} = ₹${itemTotal}</p>
                 `;
+                cartItems.appendChild(itemElement);
             });
 
-            document.getElementById('cart-total').innerText = `Total: ₹${total}`;
+            cartCount.innerText = cart.length;
+            cartTotal.innerText = `Total: ₹${total}`;
         }
 
-        // Remove item from cart
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartCount();
-            renderCart();
-        }
-
-        // Toggle cart visibility
         function toggleCart() {
             const cartSidebar = document.getElementById('cart-sidebar');
             cartSidebar.classList.toggle('active');
         }
 
-        // Checkout and send data to Google Form
         function checkout() {
-            const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSckUqZ6CR3cQ5C7NjfpWZBVvfd1MHFLJ2UvY40YhE1ossptuw/viewform";
-
-            const entryCartDetails = "entry.640102554";  // Entry ID for cart details
-            const entryTotalPrice = "entry.1721171248";  // Entry ID for total price
-
-            const formEntries = cart.map((item, index) => `${index + 1}. ${item.name} (${item.size}) - ₹${item.price} x ${item.quantity}`).join('\n');
-            const total = document.getElementById('cart-total').innerText.split('₹')[1];
-
-            const queryString = new URLSearchParams({
-                [entryCartDetails]: formEntries,
-                [entryTotalPrice]: `₹${total}`
-            });
-
-            window.location.href = `${formUrl}?${queryString.toString()}`;
-        }
-
-        // Search function
-        function searchProducts() {
-            const input = document.getElementById('search-input').value.toLowerCase();
-            const cards = document.querySelectorAll('.product-card');
-
-            cards.forEach(card => {
-                const title = card.querySelector('.product-title').innerText.toLowerCase();
-                if (title.includes(input)) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+            alert('Checkout functionality not implemented.');
         }
     </script>
 </body>
