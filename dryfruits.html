@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Display with Search and Cart</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 20px;
+        }
+
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .product-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 220px;
+            flex: 1 1 calc(25% - 20px);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
+        .product-image img {
+            width: 100%;
+            height: auto;
+        }
+
+        .product-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .product-title {
+            font-size: 1.2em;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .product-description {
+            font-size: 0.9em;
+            color: #777;
+            margin: 10px 0;
+        }
+
+        .product-size {
+            margin: 10px 0;
+        }
+
+        .product-size select {
+            padding: 5px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .product-price {
+            font-size: 1.5em;
+            color: #E91E63;
+            margin: 15px 0;
+        }
+
+        .product-quantity {
+            margin: 10px 0;
+        }
+
+        .product-quantity input {
+            width: 60px;
+            padding: 5px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .add-to-cart {
+            background-color: #E91E63;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background-color: #d81b60;
+        }
+
+        #cart-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            z-index: 1000; /* Ensure it stays on top */
+        }
+
+        #cart-button #cart-count {
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 5px 10px;
+            margin-right: 10px;
+        }
+
+        #cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -100%; /* Initially hide the cart */
+            width: 300px;
+            height: 100%;
+            background-color: #ffffff;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+            overflow-y: auto;
+            transition: right 0.3s;
+            padding: 20px;
+            z-index: 999; /* Ensure it appears above other content */
+        }
+
+        #cart-sidebar.active {
+            right: 0; /* Show the cart when active */
+        }
+
+        #cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        #cart-header h2 {
+            margin: 0;
+        }
+
+        #cart-header button {
+            background-color: #E91E63;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #cart-items {
+            margin-bottom: 20px;
+        }
+
+        #cart-total {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        #checkout-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            width: 100%;
+        }
+
+        /* Search box style */
+        #search-container {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        #search-input {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .product-card {
+                flex: 1 1 calc(33.33% - 20px); /* Fit 3 items in a row on medium screens */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-card {
+                flex: 1 1 calc(50% - 20px); /* Fit 2 items in a row on small screens */
+            }
+
+            #cart-button {
+                font-size: 1em;
+                padding: 8px 16px;
+            }
+
+            #cart-sidebar {
+                width: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-card {
+                flex: 1 1 100%; /* Fit 1 item per row on very small screens */
+            }
+
+            #cart-button {
+                font-size: 0.9em;
+                padding: 6px 12px;
+            }
+
+            #cart-sidebar {
+                width: 100%;
+            }
+
+            #search-input {
+                font-size: 0.9em;
+            }
+        }
+@media (max-width: 768px) {
+  #cart-sidebar.active {
+    right: 0;
+    width: 100%; /* Add this rule */
+  }
+}
+    </style>
+</head>
+<body>
+    <div id="search-container">
+        <input type="text" id="search-input" onkeyup="searchProducts()" placeholder="Search products...">
+    </div>
+
+    <div class="product-container">
+        <!-- Example Product Card -->
+        
+<div class="product-card" data-name="Almond Powder (Badam)">
+    <div class="product-image">
+        <img src="https://ashapuradryfruits.com/wp-content/uploads/2024/03/1-2-320x240.webp" alt="Almond Powder (Badam)">
+    </div>
+    <div class="product-info">
+        <h2 class="product-title">Almond Powder (Badam)</h2>
+        <p class="product-description">Fresh and natural betel nuts. Available in different sizes.</p>
+        <div class="product-size">
+            <label for="size-1">Size:</label>
+            <select id="size-1" onchange="updatePrice('price-1', this.value)">
+                
+                        <option value="180">200gm - ₹180</option>
+                        <option value="499">500gm - ₹499</option>
+                        <option value="719">1Kg - ₹719</option>
+                      
+            </select>
+        </div>
+        <p id="price-1" class="product-price">₹180</p>
+        <div class="product-quantity">
+            <label for="qty-1">Quantity:</label>
+            <input type="number" id="qty-1" min="1" value="1">
+        </div>
+        <button class="add-to-cart" onclick="addToCart(1)">Add to Cart</button>
+    </div>
+</div>
+
+
+<div class="product-card" data-name="Almonds | Slice Badam">
+    <div class="product-image">
+        <img src="https://ashapuradryfruits.com/wp-content/uploads/2024/03/2-320x240.webp" alt="Almonds | Slice Badam">
+    </div>
+    <div class="product-info">
+        <h2 class="product-title">Almonds | Slice Badam</h2>
+        <p class="product-description">Fresh and natural betel nuts. Available in different sizes.</p>
+        <div class="product-size">
+            <label for="size-2">Size:</label>
+            <select id="size-2" onchange="updatePrice('price-2', this.value)">
+                
+                        <option value="195">200gm - ₹195</option>
+                        <option value="850">500gm - ₹850</option>
+                        <option value="740">1Kg - ₹740</option>
+                      
+            </select>
+        </div>
+        <p id="price-2" class="product-price">₹195</p>
+        <div class="product-quantity">
+            <label for="qty-2">Quantity:</label>
+            <input type="number" id="qty-2" min="1" value="1">
+        </div>
+        <button class="add-to-cart" onclick="addToCart(2)">Add to Cart</button>
+    </div>
+</div>
+
+
+<div class="product-card" data-name="California Almond | Badam Regular">
+    <div class="product-image">
+        <img src="https://ashapuradryfruits.com/wp-content/uploads/2024/03/3-320x240.webp" alt="California Almond | Badam Regular">
+    </div>
+    <div class="product-info">
+        <h2 class="product-title">California Almond | Badam Regular</h2>
+        <p class="product-description">Fresh and natural betel nuts. Available in different sizes.</p>
+        <div class="product-size">
+            <label for="size-3">Size:</label>
+            <select id="size-3" onchange="updatePrice('price-3', this.value)">
+                
+                        <option value="176">200gm - ₹176</option>
+                        <option value="1000">500gm - ₹1000</option>
+                        <option value="699">1Kg - ₹699</option>
+                      
+            </select>
+        </div>
+        <p id="price-3" class="product-price">₹176</p>
+        <div class="product-quantity">
+            <label for="qty-3">Quantity:</label>
+            <input type="number" id="qty-3" min="1" value="1">
+        </div>
+        <button class="add-to-cart" onclick="addToCart(3)">Add to Cart</button>
+    </div>
+</div>
+
+
+<div class="product-card" data-name="California Almond | Special Badam">
+    <div class="product-image">
+        <img src="https://ashapuradryfruits.com/wp-content/uploads/2024/03/organic-almonds-removebg-preview-1-320x240.png" alt="California Almond | Special Badam">
+    </div>
+    <div class="product-info">
+        <h2 class="product-title">California Almond | Special Badam</h2>
+        <p class="product-description">Fresh and natural betel nuts. Available in different sizes.</p>
+        <div class="product-size">
+            <label for="size-4">Size:</label>
+            <select id="size-4" onchange="updatePrice('price-4', this.value)">
+                
+                        <option value="219">200gm - ₹219</option>
+                        <option value="1500">500gm - ₹1500</option>
+                        <option value="870">1Kg - ₹870</option>
+                      
+            </select>
+        </div>
+        <p id="price-4" class="product-price">₹219</p>
+        <div class="product-quantity">
+            <label for="qty-4">Quantity:</label>
+            <input type="number" id="qty-4" min="1" value="1">
+        </div>
+        <button class="add-to-cart" onclick="addToCart(4)">Add to Cart</button>
+    </div>
+</div>
+
+
+<div class="product-card" data-name="Independent Almond | Badam">
+    <div class="product-image">
+        <img src="https://ashapuradryfruits.com/wp-content/uploads/2024/03/Irani-Almond-_-Sonara-Almond-2-320x240.webp" alt="Independent Almond | Badam">
+    </div>
+    <div class="product-info">
+        <h2 class="product-title">Independent Almond | Badam</h2>
+        <p class="product-description">Fresh and natural betel nuts. Available in different sizes.</p>
+        <div class="product-size">
+            <label for="size-5">Size:</label>
+            <select id="size-5" onchange="updatePrice('price-5', this.value)">
+                
+                        <option value="167">200gm - ₹167</option>
+                        <option value="1200">500gm - ₹1200</option>
+                        <option value="670">1Kg - ₹670</option>
+                      
+            </select>
+        </div>
+        <p id="price-5" class="product-price">₹167</p>
+        <div class="product-quantity">
+            <label for="qty-5">Quantity:</label>
+            <input type="number" id="qty-5" min="1" value="1">
+        </div>
+        <button class="add-to-cart" onclick="addToCart(5)">Add to Cart</button>
+    </div>
+</div>
+
+
+<div class="product-card" data-name="Irani Almond | Sonara Almond">
+    <div class="product-image">
+        <img src="https://ashapuradryfruits.com/wp-content/uploads/2024/03/Irani-Almond-_-Sonara-Almond-320x240.webp" alt="Irani Almond | Sonara Almond">
+    </div>
+    <div class="product-info">
+        <h2 class="product-title">Irani Almond | Sonara Almond</h2>
+        <p class="product-description">Fresh and natural betel nuts. Available in different sizes.</p>
+        <div class="product-size">
+            <label for="size-6">Size:</label>
+            <select id="size-6" onchange="updatePrice('price-6', this.value)">
+                
+                        <option value="192">200gm - ₹192</option>
+                        <option value="1300">500gm - ₹1300</option>
+                        <option value="770">1Kg - ₹770</option>
+                      
+            </select>
+        </div>
+        <p id="price-6" class="product-price">₹192</p>
+        <div class="product-quantity">
+            <label for="qty-6">Quantity:</label>
+            <input type="number" id="qty-6" min="1" value="1">
+        </div>
+        <button class="add-to-cart" onclick="addToCart(6)">Add to Cart</button>
+    </div>
+</div>
+
+
+<div class="product-card" data-name="Irani SP Almonds | Sonara Badam">
+    <div class="product-image">
+        <img src="https://ashapuradryfruits.com/wp-content/uploads/2024/03/5-320x240.webp" alt="Irani SP Almonds | Sonara Badam">
+    </div>
+    <div class="product-info">
+        <h2 class="product-title">Irani SP Almonds | Sonara Badam</h2>
+        <p class="product-description">Fresh and natural betel nuts. Available in different sizes.</p>
+        <div class="product-size">
+            <label for="size-7">Size:</label>
+            <select id="size-7" onchange="updatePrice('price-7', this.value)">
+                
+                        <option value="258">200gm - ₹258</option>
+                        <option value="1500">500gm - ₹1500</option>
+                        <option value="1030">1Kg - ₹1030</option>
+                      
+            </select>
+        </div>
+        <p id="price-7" class="product-price">₹258</p>
+        <div class="product-quantity">
+            <label for="qty-7">Quantity:</label>
+            <input type="number" id="qty-7" min="1" value="1">
+        </div>
+        <button class="add-to-cart" onclick="addToCart(7)">Add to Cart</button>
+    </div>
+</div>
+
+
+<div class="product-card" data-name="Kagzi Badam | Shell Almond">
+    <div class="product-image">
+        <img src="https://ashapuradryfruits.com/wp-content/uploads/2024/03/6-320x240.webp" alt="Kagzi Badam | Shell Almond">
+    </div>
+    <div class="product-info">
+        <h2 class="product-title">Kagzi Badam | Shell Almond</h2>
+        <p class="product-description">Fresh and natural betel nuts. Available in different sizes.</p>
+        <div class="product-size">
+            <label for="size-8">Size:</label>
+            <select id="size-8" onchange="updatePrice('price-8', this.value)">
+                
+                        <option value="155">500gm - ₹155</option>
+                        <option value="800">1Kg - ₹800</option>
+                        <option value="620">200gm - ₹620</option>
+                      
+            </select>
+        </div>
+        <p id="price-8" class="product-price">₹155</p>
+        <div class="product-quantity">
+            <label for="qty-8">Quantity:</label>
+            <input type="number" id="qty-8" min="1" value="1">
+        </div>
+        <button class="add-to-cart" onclick="addToCart(8)">Add to Cart</button>
+    </div>
+</div>
+
+
+<div class="product-card" data-name="Mamra Almond A1 | Badam">
+    <div class="product-image">
+        <img src="https://ashapuradryfruits.com/wp-content/uploads/2024/03/mamra-almond-a1-badam-1-320x240.webp" alt="Mamra Almond A1 | Badam">
+    </div>
+    <div class="product-info">
+        <h2 class="product-title">Mamra Almond A1 | Badam</h2>
+        <p class="product-description">Fresh and natural betel nuts. Available in different sizes.</p>
+        <div class="product-size">
+            <label for="size-9">Size:</label>
+            <select id="size-9" onchange="updatePrice('price-9', this.value)">
+                
+                        <option value="625">200gm - ₹625</option>
+                        <option value="3000">500gm - ₹3000</option>
+                        <option value="2500">1Kg - ₹2500</option>
+                      
+            </select>
+        </div>
+        <p id="price-9" class="product-price">₹625</p>
+        <div class="product-quantity">
+            <label for="qty-9">Quantity:</label>
+            <input type="number" id="qty-9" min="1" value="1">
+        </div>
+        <button class="add-to-cart" onclick="addToCart(9)">Add to Cart</button>
+    </div>
+</div>
+
+
+<div class="product-card" data-name="Mamra Almond A2 | Badam">
+    <div class="product-image">
+        <img src="https://ashapuradryfruits.com/wp-content/uploads/2024/03/mamra-almond-a2-badam-1-320x240.webp" alt="Mamra Almond A2 | Badam">
+    </div>
+    <div class="product-info">
+        <h2 class="product-title">Mamra Almond A2 | Badam</h2>
+        <p class="product-description">Fresh and natural betel nuts. Available in different sizes.</p>
+        <div class="product-size">
+            <label for="size-10">Size:</label>
+            <select id="size-10" onchange="updatePrice('price-10', this.value)">
+                
+                        <option value="675">200gm - ₹675</option>
+                        <option value="3500">500gm - ₹3500</option>
+                        <option value="2700">1Kg - ₹2700</option>
+                      
+            </select>
+        </div>
+        <p id="price-10" class="product-price">₹675</p>
+        <div class="product-quantity">
+            <label for="qty-10">Quantity:</label>
+            <input type="number" id="qty-10" min="1" value="1">
+        </div>
+        <button class="add-to-cart" onclick="addToCart(10)">Add to Cart</button>
+    </div>
+</div>
+
+
+<div class="product-card" data-name="Mamra Almond A3 | Badam">
+    <div class="product-image">
+        <img src="https://ashapuradryfruits.com/wp-content/uploads/2024/03/mamra-badam-almond-320x240.webp" alt="Mamra Almond A3 | Badam">
+    </div>
+    <div class="product-info">
+        <h2 class="product-title">Mamra Almond A3 | Badam</h2>
+        <p class="product-description">Fresh and natural betel nuts. Available in different sizes.</p>
+        <div class="product-size">
+            <label for="size-11">Size:</label>
+            <select id="size-11" onchange="updatePrice('price-11', this.value)">
+                
+                        <option value="660">200gm - ₹660</option>
+                        <option value="3000">500gm - ₹3000</option>
+                        <option value="2640">1Kg - ₹2640</option>
+                      
+            </select>
+        </div>
+        <p id="price-11" class="product-price">₹660</p>
+        <div class="product-quantity">
+            <label for="qty-11">Quantity:</label>
+            <input type="number" id="qty-11" min="1" value="1">
+        </div>
+        <button class="add-to-cart" onclick="addToCart(11)">Add to Cart</button>
+    </div>
+</div>
+
+
+<div class="product-card" data-name="Mamra Almond A4 | Badam">
+    <div class="product-image">
+        <img src="https://ashapuradryfruits.com/wp-content/uploads/2024/03/mamra-almond-a4-badam-320x240.webp" alt="Mamra Almond A4 | Badam">
+    </div>
+    <div class="product-info">
+        <h2 class="product-title">Mamra Almond A4 | Badam</h2>
+        <p class="product-description">Fresh and natural betel nuts. Available in different sizes.</p>
+        <div class="product-size">
+            <label for="size-12">Size:</label>
+            <select id="size-12" onchange="updatePrice('price-12', this.value)">
+                
+                        <option value="760">200gm - ₹760</option>
+                        <option value="3899">500gm - ₹3899</option>
+                        <option value="3040">1Kg - ₹3040</option>
+                      
+            </select>
+        </div>
+        <p id="price-12" class="product-price">₹760</p>
+        <div class="product-quantity">
+            <label for="qty-12">Quantity:</label>
+            <input type="number" id="qty-12" min="1" value="1">
+        </div>
+        <button class="add-to-cart" onclick="addToCart(12)">Add to Cart</button>
+    </div>
+</div>
+
+
+<div class="product-card" data-name="Mamra Almond A5 | Badam">
+    <div class="product-image">
+        <img src="https://ashapuradryfruits.com/wp-content/uploads/2024/03/mamra-almond-a5-badam-2-320x240.webp" alt="Mamra Almond A5 | Badam">
+    </div>
+    <div class="product-info">
+        <h2 class="product-title">Mamra Almond A5 | Badam</h2>
+        <p class="product-description">Fresh and natural betel nuts. Available in different sizes.</p>
+        <div class="product-size">
+            <label for="size-13">Size:</label>
+            <select id="size-13" onchange="updatePrice('price-13', this.value)">
+                
+                        <option value="910">200gm - ₹910</option>
+                        <option value="3999">500gm - ₹3999</option>
+                        <option value="3640">1Kg - ₹3640</option>
+                      
+            </select>
+        </div>
+        <p id="price-13" class="product-price">₹910</p>
+        <div class="product-quantity">
+            <label for="qty-13">Quantity:</label>
+            <input type="number" id="qty-13" min="1" value="1">
+        </div>
+        <button class="add-to-cart" onclick="addToCart(13)">Add to Cart</button>
+    </div>
+</div>
+
+
+<div class="product-card" data-name="Mamra Almond A6 | Badam">
+    <div class="product-image">
+        <img src="https://ashapuradryfruits.com/wp-content/uploads/2024/03/mamra-almond-a6-badam-320x240.webp" alt="Mamra Almond A6 | Badam">
+    </div>
+    <div class="product-info">
+        <h2 class="product-title">Mamra Almond A6 | Badam</h2>
+        <p class="product-description">Fresh and natural betel nuts. Available in different sizes.</p>
+        <div class="product-size">
+            <label for="size-14">Size:</label>
+            <select id="size-14" onchange="updatePrice('price-14', this.value)">
+                
+                        <option value="1110">200gm - ₹1110</option>
+                        <option value="4999">500gm - ₹4999</option>
+                        <option value="4440">1Kg - ₹4440</option>
+                      
+            </select>
+        </div>
+        <p id="price-14" class="product-price">₹1110</p>
+        <div class="product-quantity">
+            <label for="qty-14">Quantity:</label>
+            <input type="number" id="qty-14" min="1" value="1">
+        </div>
+        <button class="add-to-cart" onclick="addToCart(14)">Add to Cart</button>
+    </div>
+</div>
+
+
+<div class="product-card" data-name="Roasted Salted Almond | Badam">
+    <div class="product-image">
+        <img src="https://ashapuradryfruits.com/wp-content/uploads/2024/03/5-1-320x240.webp" alt="Roasted Salted Almond | Badam">
+    </div>
+    <div class="product-info">
+        <h2 class="product-title">Roasted Salted Almond | Badam</h2>
+        <p class="product-description">Fresh and natural betel nuts. Available in different sizes.</p>
+        <div class="product-size">
+            <label for="size-15">Size:</label>
+            <select id="size-15" onchange="updatePrice('price-15', this.value)">
+                
+                        <option value="237">200gm - ₹237</option>
+                        <option value="1400">500gm - ₹1400</option>
+                        <option value="950">1Kg - ₹950</option>
+                      
+            </select>
+        </div>
+        <p id="price-15" class="product-price">₹237</p>
+        <div class="product-quantity">
+            <label for="qty-15">Quantity:</label>
+            <input type="number" id="qty-15" min="1" value="1">
+        </div>
+        <button class="add-to-cart" onclick="addToCart(15)">Add to Cart</button>
+    </div>
+</div>
+
+
+<div class="product-card" data-name="Mamra Almond Touch | Badam">
+    <div class="product-image">
+        <img src="https://ashapuradryfruits.com/wp-content/uploads/2024/03/Downloader.la-668928928364e-320x240.webp" alt="Mamra Almond Touch | Badam">
+    </div>
+    <div class="product-info">
+        <h2 class="product-title">Mamra Almond Touch | Badam</h2>
+        <p class="product-description">Fresh and natural betel nuts. Available in different sizes.</p>
+        <div class="product-size">
+            <label for="size-16">Size:</label>
+            <select id="size-16" onchange="updatePrice('price-16', this.value)">
+                
+                        <option value="330">200gm - ₹330</option>
+                        <option value="1600">500gm - ₹1600</option>
+                        <option value="1320">1Kg - ₹1320</option>
+                      
+            </select>
+        </div>
+        <p id="price-16" class="product-price">₹330</p>
+        <div class="product-quantity">
+            <label for="qty-16">Quantity:</label>
+            <input type="number" id="qty-16" min="1" value="1">
+        </div>
+        <button class="add-to-cart" onclick="addToCart(16)">Add to Cart</button>
+    </div>
+</div>
+
+
+
+        <!-- Add more product cards here -->
+    </div>
+
+    <div id="cart-button" onclick="toggleCart()">
+        <span id="cart-count">0</span>
+        🛒 Cart
+    </div>
+
+    <div id="cart-sidebar">
+        <div id="cart-header">
+            <h2>Your Cart</h2>
+            <button onclick="toggleCart()">Close</button>
+        </div>
+        <div id="cart-items"></div>
+        <p id="cart-total">Total: ₹0</p>
+        <button id="checkout-button" onclick="checkout()">Checkout</button>
+    </div>
+
+    <script>
+        let cart = [];
+
+        // Update price based on selected size
+        function updatePrice(priceElementId, selectedPrice) {
+            document.getElementById(priceElementId).innerText = '₹' + selectedPrice;
+        }
+
+        // Add product to cart
+        function addToCart(productId) {
+            const product = {
+                id: productId,
+                name: document.querySelector(`.product-card:nth-child(${productId}) .product-title`).innerText,
+                price: document.getElementById(`size-${productId}`).value,
+                quantity: document.getElementById(`qty-${productId}`).value,
+                size: document.getElementById(`size-${productId}`).selectedOptions[0].text.split(' ')[0],
+            };
+
+            cart.push(product);
+            updateCartCount();
+            renderCart();
+        }
+
+        // Update cart item count
+        function updateCartCount() {
+            const cartCount = document.getElementById('cart-count');
+            cartCount.innerText = cart.length;
+        }
+
+        // Render cart items
+        function renderCart() {
+            const cartContainer = document.getElementById('cart-items');
+            cartContainer.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+
+                cartContainer.innerHTML += `
+                    <div class="cart-item">
+                        <p>${item.name} (${item.size}) - ₹${item.price} x ${item.quantity}</p>
+                        <button onclick="removeFromCart(${index})">Remove</button>
+                    </div>
+                `;
+            });
+
+            document.getElementById('cart-total').innerText = `Total: ₹${total}`;
+        }
+
+        // Remove item from cart
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartCount();
+            renderCart();
+        }
+
+        // Toggle cart visibility
+        function toggleCart() {
+            const cartSidebar = document.getElementById('cart-sidebar');
+            cartSidebar.classList.toggle('active');
+        }
+
+        // Checkout and send data to Google Form
+        function checkout() {
+            const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSckUqZ6CR3cQ5C7NjfpWZBVvfd1MHFLJ2UvY40YhE1ossptuw/viewform";
+
+            const entryCartDetails = "entry.640102554";  // Entry ID for cart details
+            const entryTotalPrice = "entry.1721171248";  // Entry ID for total price
+
+            const formEntries = cart.map((item, index) => `${index + 1}. ${item.name} (${item.size}) - ₹${item.price} x ${item.quantity}`).join('\n');
+            const total = document.getElementById('cart-total').innerText.split('₹')[1];
+
+            const queryString = new URLSearchParams({
+                [entryCartDetails]: formEntries,
+                [entryTotalPrice]: `₹${total}`
+            });
+
+            window.location.href = `${formUrl}?${queryString.toString()}`;
+        }
+
+        // Search function
+        function searchProducts() {
+            const input = document.getElementById('search-input').value.toLowerCase();
+            const cards = document.querySelectorAll('.product-card');
+
+            cards.forEach(card => {
+                const title = card.querySelector('.product-title').innerText.toLowerCase();
+                if (title.includes(input)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
