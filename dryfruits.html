@@ -102,143 +102,153 @@ background-color: #d81b60;
 }
 
 #cart-button {
-position: fixed;
-top: 20px;
-right: 20px;
-background-color: #4CAF50;
-color: white;
-border: none;
-padding: 10px 20px;
-border-radius: 5px;
-cursor: pointer;
-font-size: 1.2em;
-z-index: 1000;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2em;
+    z-index: 1000;
 }
 
 #cart-button #cart-count {
-background-color: red;
-color: white;
-border-radius: 50%;
-padding: 5px 10px;
-margin-right: 10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px 10px;
+    margin-right: 10px;
 }
 
 #cart-sidebar {
-position: fixed;
-top: 0;
-right: -100%;
-width: 300px;
-height: 100%;
-background-color: #ffffff;
-box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-overflow-y: scroll;
-transition: right 0.3s;
-padding: 20px;
-z-index: 999;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 100%;
+    background-color: #ffffff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    overflow-y: scroll;
+    transition: right 0.3s;
+    padding: 20px;
+    z-index: 999;
 }
 
 #cart-sidebar.active {
-right: 0;
-backdrop-filter: blur(5px);
+    right: 0;
+    backdrop-filter: blur(5px);
 }
 
 #cart-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 20px;
-position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
 }
 
 #cart-header button {
-position: absolute;
-top: 10px;
-right: 10px;
-background-color: #E91E63;
-color: white;
-border: none;
-padding: 5px 10px;
-border-radius: 5px;
-cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #E91E63;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 #cart-items {
-margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 #cart-total {
-font-size: 1.5em;
-margin-bottom: 20px;
-color: #333;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #333;
 }
 
 #checkout-button {
-background-color: #4CAF50;
-color: white;
-border: none;
-padding: 10px 20px;
-border-radius: 5px;
-cursor: pointer;
-font-size: 1em;
-width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
 }
 
-/* Search box style */
+/* Fixed Search Box Style */
 #search-container {
-margin-bottom: 20px;
-display: flex;
-justify-content: center;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    width: 250px;
 }
 
 #search-input {
-padding: 10px;
-font-size: 1em;
-border: 1px solid #ddd;
-border-radius: 5px;
-width: 100%;
-max-width: 300px;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 300px;
 }
 
 /* Responsive Design */
 @media (max-width: 1200px) {
-.product-card {
-flex: 1 1 calc(33.33% - 20px);
+    .product-card {
+        flex: 1 1 calc(33.33% - 20px);
+    }
 }
 
 @media (max-width: 768px) {
-  .product-card {
-    flex: 1 1 calc(50% - 20px);
-  }
-  #cart-button {
-    font-size: 1em;
-    padding: 8px 16px;
-  }
-  #cart-sidebar {
-    width: 250px;
-  }
+    .product-card {
+        flex: 1 1 calc(50% - 20px);
+    }
+    #cart-button {
+        font-size: 1em;
+        padding: 8px 16px;
+    }
+    #cart-sidebar {
+        width: 250px;
+    }
 }
 
 @media (max-width: 480px) {
-  .product-card {
-    flex: 1 1 calc(50% - 20px); /* Two products in a row */
-
-  }
-  #cart-button {
-    font-size: 0.9em;
-    padding: 6px 12px;
-  }
-  #cart-sidebar {
-    width: 90%;
-  }
-  #search-input {
-    font-size: 0.9em;
-  }
+    .product-card {
+        flex: 1 1 calc(50% - 20px); /* Two products in a row */
+    }
+    #cart-button {
+        font-size: 0.9em;
+        padding: 6px 12px;
+    }
+    #cart-sidebar {
+        width: 90%;
+    }
+    #search-input {
+        font-size: 0.9em;
+    }
 }
+
 </style>
 </head>
 <body>
-<div id="search-container">
-<input type="text" id="search-input" onkeyup="searchProducts()" placeholder="Search products...">
+<div id="top-bar">
+    <div id="search-container">
+        <input type="text" id="search-input" onkeyup="searchProducts()" placeholder="Search products...">
+    </div>
+    <div id="cart-button" onclick="toggleCart()">
+        <span id="cart-count">0</span> 🛒 Cart
+    </div>
 </div>
 
 <div class="product-container">
@@ -417,10 +427,6 @@ flex: 1 1 calc(33.33% - 20px);
 <!-- Add more product cards here -->
 </div>
 
-<div id="cart-button" onclick="toggleCart()">
-<span id="cart-count">0</span>
-🛒 Cart
-</div>
 
 <div id="cart-sidebar">
 <div id="cart-header">
@@ -527,6 +533,58 @@ let cart = [];
                 }
             });
         }
+  // Search function
+  function searchProducts() {
+    const input = document.getElementById('search-input').value.toLowerCase();
+    const cards = document.querySelectorAll('.product-card');
+
+    cards.forEach(card => {
+      const title = card.querySelector('.product-title').innerText.toLowerCase();
+      if (title.includes(input)) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+let searchInput = document.getElementById('search-input');
+let typingMessages = [
+    'Order Dry Fruits', 
+    'Order Vegetables', 
+    'Order Fruits', 
+    'Order Fresh Produce', 
+    'Order Grocery'
+];
+let currentMessageIndex = 0;
+let currentCharIndex = 0;
+
+function typeEffect() {
+    if (currentCharIndex < typingMessages[currentMessageIndex].length) {
+        searchInput.placeholder += typingMessages[currentMessageIndex].charAt(currentCharIndex);
+        currentCharIndex++;
+        setTimeout(typeEffect, 150);  // Typing speed (in ms)
+    } else {
+        setTimeout(eraseEffect, 2000);  // Pause before erasing (in ms)
+    }
+}
+
+function eraseEffect() {
+    if (currentCharIndex >= 0) {
+        searchInput.placeholder = searchInput.placeholder.slice(0, currentCharIndex);
+        currentCharIndex--;
+        setTimeout(eraseEffect, 100);  // Erasing speed (in ms)
+    } else {
+        currentMessageIndex = (currentMessageIndex + 1) % typingMessages.length;  // Loop through messages
+        setTimeout(typeEffect, 500);  // Pause before starting to type the next message
+    }
+}
+
+// Start the typing effect when the page loads
+window.onload = function() {
+    typeEffect();
+};
+
 </script>
 </body>
 </html>
