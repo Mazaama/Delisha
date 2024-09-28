@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vendor Billing</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Vegetable Store</h1>
+
+    <!-- Vendor name -->
+    <div class="vendor-form">
+      <label for="vendorName">Vendor Name:</label>
+      <input type="text" id="vendorName" placeholder="Enter vendor name" required>
+    </div>
+
+    <!-- Product Search -->
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search for vegetables...">
+    </div>
+
+    <!-- Product Grid -->
+    <div class="product-grid">
+      <!-- Product cards will be dynamically added here -->
+    </div>
+
+    <!-- Cart Section -->
+    <div class="cart-section">
+      <h2>Cart</h2>
+      <div id="cartItems"></div>
+      <p><strong>Total Amount:</strong> ₹<span id="totalAmount">0.00</span></p>
+      <button id="checkoutButton">Checkout</button>
+    </div>
+  </div>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #007bff;
+      margin-bottom: 20px;
+    }
+
+    .vendor-form, .search-bar {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input {
+      padding: 10px;
+      width: 50%;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      background-color: #f1f1f1;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-card img {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 10px;
+    }
+
+    .product-card input {
+      width: 60px;
+      padding: 5px;
+    }
+
+    .cart-section {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+    }
+
+    #checkoutButton {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      font-size: 18px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #checkoutButton:hover {
+      background-color: #218838;
+    }
+  </style>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const products = [
+      { id: 1, name: 'Papaya Medium (Approx. 700gm-1200gm)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/2273PapayaMediumApprox700gm1200gm2.jpg' },
+{ id: 2, name: 'Banana Elaichi', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/143BananaElaichi2.jpg' },
+{ id: 3, name: 'Pear Imported(App.520g to 600g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/246PearImportedApp520gto600g2.jpg' },
+{ id: 4, name: 'Watermelon(approx.2 kg to 3 kg)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/22Watermelonapprox2kgto3kg2.jpg' },
+{ id: 5, name: 'Banana Golden', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20BananaGolden2.jpg' },
+{ id: 6, name: 'Chiku', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/38Chiku2.jpg' },
+{ id: 7, name: 'Muskmelon(App.600g to 900g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/21MuskmelonApp600gto900g2.jpg' },
+{ id: 8, name: 'Papaya-Small(Approx.500g to 800g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/23PapayaSmallApprox500gto800g2.jpg' },
+{ id: 9, name: 'Blueberry - Imported (125gm)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/343BlueberryImported125gm2.jpg' },
+{ id: 10, name: 'Avocado Imported(Premium)(approx.170g to 220g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/123AvocadoImportedPremiumapprox170gto220g2.jpg' },
+{ id: 11, name: 'Guava', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/35Guava2.jpg' },
+{ id: 12, name: 'Apple Queen Regular(Approx.500g to 560g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20230725125319Apple%20Queen.jpg' },
+{ id: 13, name: 'Economy Royal Gala Apple (approx.450g to 500g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/306EconomyRoyalGalaAppleapprox450gto500g2.jpg' },
+{ id: 14, name: 'Royal Gala Apple(Approx.510g to 600g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/378RoyalGalaAppleApprox510gto600g2.jpg' },
+{ id: 15, name: 'Tender Coconut(Paniwala)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/382TenderCoconutPaniwala2.jpg' },
+{ id: 16, name: 'Red Delicious Apple(approx.500g to 600g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/463RedDeliciousAppleapprox500gto600g2.jpg' },
+{ id: 17, name: 'Apple Pink Lady(approx.550g-625g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20221223131541Pink%20lady.jpg' },
+{ id: 18, name: 'Pomegranate(Approx.720g to 800g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/865PomegranateApprox720gto800g2.jpg' },
+{ id: 19, name: 'Green Kiwi', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/271GreenKiwi2.jpg' },
+{ id: 20, name: 'Baby Banana', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/4339BabyBanana2.jpg' },
+{ id: 21, name: 'Oranges Imported (app.600g to 680g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/61OrangesImportedapp600gto680g2.jpg' },
+{ id: 22, name: 'Sugarcane Dice', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/422SugarcaneDice2.jpg' },
+{ id: 23, name: 'Premium Mosambi (Sweet lime)(Approx.600g to 740g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1448PremiumMosambiSweetlimeApprox600gto740g2.jpg' },
+{ id: 24, name: 'Indian Royal Gala Apple', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20240806102431apple.png' },
+{ id: 25, name: 'Thai Guava Pink', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/4312ThaiGuavaPink2.jpg' },
+{ id: 26, name: 'Longan Lychee', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20220906124523Longan-min.png' },
+{ id: 27, name: 'Apple Shimla', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20230818092333Apple%20Shimla.jpg' },
+{ id: 28, name: 'Muskmelon-Honeydew(App.500g to 700g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/347MuskmelonHoneydewApp500gto700g2.jpg' },
+{ id: 29, name: 'Papaya Big (Approx. 1200gm-1700gm)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/4548PapayaBigApprox1200gm1700gm2.jpg' },
+{ id: 30, name: 'Pomegranate Premium (Approx. 400-420gm)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/2634PomegranatePremiumApprox400420gm2.jpg' },
+{ id: 31, name: 'Mosambi (Sweet lime)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/825MosambiSweetlime2.jpg' },
+{ id: 32, name: 'Premium Royal Gala Apple (App.560g to 700g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/164PremiumRoyalGalaAppleApp560gto700g2.jpg' },
+{ id: 33, name: 'Fresh Pineapple-Slices', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/342FreshPineappleSlices2.jpg' },
+{ id: 34, name: 'Papaya Raw-Big (Approx 600g to 1kg)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/302PapayaRawBigApprox600gto1kg2.jpg' },
+{ id: 35, name: 'Amla', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/137Amla2.jpg' },
+{ id: 36, name: 'Thai Guava (appr.500g to 600g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1158ThaiGuavaappr500gto600g2.jpg' },
+{ id: 37, name: 'Banana - Nendran', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1113BananaNendran2.jpg' },
+{ id: 38, name: 'Sweet lime -Select', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20230829154208Sweet-Lime-300x300-Pixels.jpg' },
+{ id: 39, name: 'Custard apple-Select', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20230829153935Custard-Apple-300x300-Pixels.jpg' },
+{ id: 40, name: 'Grape Fruit(Approx.200g-300g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/763GrapeFruitApprox200g300g2.jpg' },
+{ id: 41, name: 'Green Apple(approx.500g to 650g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/85GreenAppleapprox500gto650g2.jpg' },
+{ id: 42, name: 'Pomegranate Peeled', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/341PomegranatePeeled2.jpg' },
+{ id: 43, name: 'Baby Oranges Imported', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/305BabyOrangesImported2.jpg' },
+{ id: 44, name: 'Red Delicious Apple Premium', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/4402RedDeliciousApplePremium2.jpg' },
+{ id: 45, name: 'Pomegranate(Approx.960g to 1080g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1104PomegranateApprox960gto1080g2.jpg' },
+{ id: 46, name: 'Dates Kimia (Approx 400g to 500g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1798DatesKimiaApprox400gto500g2.jpg' },
+{ id: 47, name: 'Baby Shimla Apple', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20211110162957baby%20app2_300.png' },
+{ id: 48, name: 'Mosambi Regular (Approx 300-320gm)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/2635MosambiRegularApprox300320gm2.jpg' },
+{ id: 49, name: 'Orange 2Nos Combo', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/606Orange2NosCombo2.jpg' },
+{ id: 50, name: 'Grapes- Red Globe (Imported)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20230617100412Red%20Globe.jpg' },
+{ id: 51, name: 'Sugarcane', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/3318Sugarcane2.jpg' },
+{ id: 52, name: 'Papaya Raw-Medium (Approx 300g to 500g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1234PapayaRawMediumApprox300gto500g2.jpg' },
+{ id: 53, name: 'Sweet Tamarind', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/135SweetTamarind2.jpg' },
+{ id: 54, name: 'Banana Red', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1114BananaRed2.jpg' },
+{ id: 55, name: 'Mosambi (Sweet lime)(Approx.560g to 640g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/866MosambiSweetlimeApprox560gto640g2.jpg' },
+{ id: 56, name: 'Pineapple(Approx.650g to 800g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/139PineappleApprox650gto800g2.jpg' },
+{ id: 57, name: 'Pomegranate Premium (Approx. 800g to 900g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1622PomegranatePremiumApprox800gto900g2.jpg' },
+{ id: 58, name: 'Juicy Plum-Imported', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20240125164400Imported%20Juicy%20Plum.jpg' },
+{ id: 59, name: 'Baby Pineapple(Approx.250g to 350g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1884BabyPineappleApprox250gto350g2.jpg' },
+{ id: 60, name: 'Washington Apple Regular(App.500 g to 640g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/washingtonappleregularNew.png' },
+{ id: 61, name: 'Pear Green Beauty(Approx.550g to 625g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/603PearGreenBeautyApprox550gto625g2.jpg' },
+{ id: 62, name: 'Golden Kiwi-Zespri', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/SweetTropicalKiwi.png' },
+{ id: 63, name: 'Fruit Harmony Combo', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/2.jpg' },
+{ id: 64, name: 'Red Dragonfruit Indian(approx.225g to 300g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/114RedDragonfruitIndianapprox225gto300g2.jpg' },
+{ id: 65, name: 'Custard Apple- Premium (Approx 520 - 620gm)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/2953CustardApplePremiumApprox520620gm2.jpg' },
+{ id: 66, name: 'Imported Avocado-Select', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/4449ImportedAvocadoSelect2.jpg' },
+{ id: 67, name: 'Pineapple Premium (900g-1000g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/3157PineapplePremium900g1000g2.jpg' },
+{ id: 68, name: 'Pomegranate Jumbo (Approx. 580g to 620g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/2952PomegranateJumboApprox580gto620g2.jpg' },
+{ id: 69, name: 'Apricot Dried(200gm)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/344ApricotDried200gm2.jpg' },
+{ id: 70, name: 'Healthy Harvest Combo', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1.jpg' },
+{ id: 71, name: 'Custard Apple(Approx. 720g to 800g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/109CustardAppleApprox720gto800g2.jpg' },
+{ id: 72, name: 'Raspberry Indian', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20240219172140Raspberry%20Indian%20300.png' },
+{ id: 73, name: 'Orange Regular', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/4602OrangeRegular2.jpg' },
+{ id: 74, name: 'Oranges Small', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/5467OrangesSmall2.jpg' },
+{ id: 75, name: 'Rambutan Fruit - Indian', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20230703092745Rambutan%20Fruit.png' },
+{ id: 76, name: 'Premium Tender Coconut-Select', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/4216PremiumTenderCoconutSelect2.jpg' },
+{ id: 77, name: 'Pomelo', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20231018172314Pamelo%20300.png' },
+{ id: 78, name: 'Fresh Green Pear-Indian', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20230719155918Fresh%20Indian%20pear.jpg' },
+{ id: 79, name: 'Golden Apple', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20221014160511Golden%20Apple.jpg' },
+{ id: 80, name: 'Indian Green Pear (Nashpati)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20240825131602pears%20nashpati%201000.png' },
+{ id: 81, name: 'Beetroot', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/264Beetroot2.jpg' },
+{ id: 82, name: 'Dudhi(approx.350g to 550g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/465Dudhiapprox350gto550g2.jpg' },
+{ id: 83, name: 'Cabbage(Approx 450 gm - 800 gm)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1187CabbageApprox450gm800gm2.jpg' },
+{ id: 84, name: 'Carrot', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1192Carrot2.jpg' },
+{ id: 85, name: 'Capsicum Green', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/265CapsicumGreen2.jpg' },
+{ id: 86, name: 'Onion', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/3186Onion2.jpg' },
+{ id: 87, name: 'Onion', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1184Onion2.jpg' },
+{ id: 88, name: 'Cauliflower - Small (Approx. 300g-500g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1191CauliflowerSmallApprox300g500g2.jpg' },
+{ id: 89, name: 'Sweet Corn(approx.240g to 270g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/79SweetCornappeox240gto270g2.jpg' },
+{ id: 90, name: 'Bhendi', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1183Bhendi2.jpg' },
+{ id: 91, name: 'Tomato.', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/155Tomato2.jpg' },
+{ id: 92, name: 'Tomato', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/3Tomato2.jpg' },
+{ id: 93, name: 'Coriander(Cleaned and Packed)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1180CorianderCleanedandPacked2.jpg' },
+{ id: 94, name: 'Curry Leaves', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/28CurryLeaves2.jpg' },
+{ id: 95, name: 'Ginger', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/234Ginger2.jpg' },
+{ id: 96, name: 'Potato', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1958Potato2.jpg' },
+{ id: 97, name: 'Potato', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/2Potato2.jpg' },
+{ id: 98, name: 'Chilli Medium Spicy', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/78ChilliMediumSpicy2.jpg' },
+{ id: 99, name: 'Green Peas', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/greenpeas.png' },
+{ id: 100, name: 'Gavar', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/33Gavar2.jpg' },
+{ id: 101, name: 'Cucumber Green(Kakadi-Hirvi)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/2467CucumberGreenKakadiHirvi2.jpg' },
+{ id: 102, name: 'Chilli Green Spicy', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/8ChilliGreenSpicy2.jpg' },
+{ id: 103, name: 'Lemon', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20221220082948Lemon.png' },
+{ id: 104, name: 'Mint (Cleaned and Packed)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/539MintCleanedandPacked2.jpg' },
+{ id: 105, name: 'Cowpea Beans', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/83CowpeaBeans2.jpg' },
+{ id: 106, name: 'Garlic', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/6Garlic2.jpg' },
+{ id: 107, name: 'Brinjal Bharta', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/74BrinjalBharta2.jpg' },
+{ id: 108, name: 'Tomato Desi.', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1433TomatoDesi2.jpg' },
+{ id: 109, name: 'Coconut', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/48Coconut2.jpg' },
+{ id: 110, name: 'Karela.', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/36Karela2.jpg' },
+{ id: 111, name: 'Cucumber White', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20220908130223cucumberwhite-min.png' },
+{ id: 112, name: 'Amaranthus Red - Lal Math', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/187AmaranthusRedLalMath2.jpg' },
+{ id: 113, name: 'Brinjal Nagpur', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/604BrinjalNagpur2.jpg' },
+{ id: 114, name: 'Garlic-Peeled', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/229GarlicPeeled2.jpg' },
+{ id: 115, name: 'Raw Banana', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/146RawBanana2.jpg' },
+{ id: 116, name: 'Aluche Pane(Colocasia Leaf)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/40AluchePaneColocasiaLeaf2.jpg' },
+{ id: 117, name: 'Parwal', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/126Parwal2.jpg' },
+{ id: 118, name: 'Sweet Corn Peeled', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/286SweetCornPeeled2.jpg' },
+{ id: 119, name: 'TOP Combo(Tomato,Onion,Potato Combo)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/POTNew.jpg' },
+{ id: 120, name: 'Coconut Large(App.550g-580g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/2184CoconutLargeApp550g580g2.jpg' },
+{ id: 121, name: 'Brinjal Long Black', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1308BrinjalLongBlack2.jpg' },
+{ id: 122, name: 'Pumpkin Disco (approx. 400g to 500g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1399PumpkinDiscoapprox400gto500g2.jpg' },
+{ id: 123, name: 'Potato Small', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/4362PotatoSmall2.jpg' },
+{ id: 124, name: 'Sweet Potato', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1208SweetPotato2.jpg' },
+{ id: 125, name: 'Gavar-Cut', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/609GavarCut2.jpg' },
+{ id: 126, name: 'Arbi Roots', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/125ArbiRoots2.jpg' },
+{ id: 127, name: 'Amaranthus Green - Green Math', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/188AmaranthusGreenGreenMath2.jpg' },
+{ id: 128, name: 'Onion-Small', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/202OnionSmall2.jpg' },
+{ id: 129, name: 'Brinjal Bharta-Green', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/819BrinjalBhartaGreen2.jpg' },
+{ id: 130, name: 'Green Peas Peeled', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/313GreenPeasPeeled2.jpg' },
+{ id: 131, name: 'Neem Leaves with Stick(Approx.20g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/neemleaves.png' },
+{ id: 132, name: 'Karela White', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20240830172206White%20Bitter%20Grout%20White%20Karela-Photoroom.jpg' },
+{ id: 133, name: 'Fresh Rajma Beans Peeled', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20240830172107Peeled%20Rajma%20Beans-Photoroom.jpg' },
+{ id: 134, name: 'Betel Leaf', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/117BetelLeaf2.jpg' },
+{ id: 135, name: 'Suran (Yam)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/91SuranYam2.jpg' },
+{ id: 136, name: 'Banana Leaf', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/466BananaLeaf2.jpg' },
+{ id: 137, name: 'Drumstick cut', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20220824104714Drumstick%20cut.jpg' },
+{ id: 138, name: 'Drumstick(approx.5 pc to 6 pc)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/32Drumstickapprox5pcto6pc2.jpg' },
+{ id: 139, name: 'Karela slice', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/2605Karelaslice2.jpg' },
+{ id: 140, name: 'Mangalore/Colour Cucumber(Approx.500g-900g)', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20220405113215Untitled%20design%20(45).png' },
+{ id: 141, name: 'Bhendi Diced', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/2976BhendiDiced2.jpg' },
+{ id: 142, name: 'Cowpea Beans-Chopped', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/612CowpeaBeansChopped2.jpg' },
+{ id: 143, name: 'Beetroot Julienne', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/2973BeetrootJulienne2.jpg' },
+{ id: 144, name: 'Cabbage shredded', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/2608Cabbageshredded2.jpg' },
+{ id: 145, name: 'Beetroot Diced', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/2977BeetrootDiced2.jpg' },
+{ id: 146, name: 'Mango Leaves', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1304MangoLeaves2.jpg' },
+{ id: 147, name: 'Imported Lemon', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/193ImportedLemon2.jpg' },
+{ id: 148, name: 'Dry Groundnuts', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/1543DryGroundnuts2.jpg' },
+{ id: 149, name: 'French Beans Julienne', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/2972FrenchBeansJulienne2.jpg' },
+{ id: 150, name: 'Groundnuts', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/76Groundnuts2.jpg' },
+{ id: 151, name: 'Betel Nut', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/betelnut.jpg' },
+{ id: 152, name: 'Green Capsicum cut', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/4479GreenCapsicumcut2.jpg' },
+{ id: 153, name: 'Cucumber Green Julienne', image: 'https://diz7l2x0sn587.cloudfront.net/kisankonnect/Images/ProductImage/20221006140632Cucumber%20300x300.jpg' },
+    ];
+
+    const productGrid = document.querySelector('.product-grid');
+    const searchInput = document.getElementById('searchInput');
+    const cartItems = document.getElementById('cartItems');
+    const totalAmountElement = document.getElementById('totalAmount');
+    const vendorNameInput = document.getElementById('vendorName');
+    let cart = [];
+
+    // Display all products
+    function displayProducts(filteredProducts) {
+      productGrid.innerHTML = ''; // Clear the grid
+      filteredProducts.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+
+        productCard.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <label>Price:</label>
+          <input type="number" id="price-${product.id}" min="0" placeholder="0" class="price-input">
+          <br>
+          <label>Qty:</label>
+          <input type="number" id="qty-${product.id}" min="1" placeholder="0">
+          <button onclick="addToCart(${product.id})">Add to Cart</button>
+        `;
+
+        productGrid.appendChild(productCard);
+      });
+    }
+
+    // Add to cart functionality
+    window.addToCart = function(productId) {
+      const product = products.find(p => p.id === productId);
+      const price = parseFloat(document.getElementById(`price-${productId}`).value);
+      const quantity = parseInt(document.getElementById(`qty-${productId}`).value);
+
+      if (!price || price <= 0) {
+        alert('Please enter a valid price.');
+        return;
+      }
+
+      if (!quantity || quantity <= 0) {
+        alert('Please enter a valid quantity.');
+        return;
+      }
+
+      // Check if the product is already in the cart
+      const existingCartItem = cart.find(item => item.id === productId);
+      if (existingCartItem) {
+        existingCartItem.quantity += quantity;
+        existingCartItem.price = price; // Update the price if needed
+      } else {
+        cart.push({ ...product, quantity, price });
+      }
+
+      updateCart();
+    };
+
+    // Update cart
+    function updateCart() {
+      cartItems.innerHTML = '';
+      let totalAmount = 0;
+
+      cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        totalAmount += itemTotal;
+
+        const cartItem = document.createElement('div');
+        cartItem.innerHTML = `
+          <p>${index + 1}) ${item.name} - ${item.quantity} x ₹${item.price} = ₹${itemTotal.toFixed(2)}</p>
+        `;
+
+        cartItems.appendChild(cartItem);
+      });
+
+      totalAmountElement.textContent = totalAmount.toFixed(2);
+    }
+
+    // Checkout and send to Google Form
+    document.getElementById('checkoutButton').addEventListener('click', function() {
+      const vendorName = vendorNameInput.value;
+
+      if (!vendorName) {
+        alert('Please enter a vendor name.');
+        return;
+      }
+
+      if (cart.length === 0) {
+        alert('Your cart is empty.');
+        return;
+      }
+
+      let cartItemsString = '';
+      cart.forEach((item, index) => {
+        cartItemsString += `${index + 1}) ${item.name} - ${item.quantity} x ₹${item.price} = ₹${(item.price * item.quantity).toFixed(2)}\n`;
+      });
+
+      // Construct Google Form URL with pre-filled values
+      let formUrl = `https://docs.google.com/forms/d/e/1FAIpQLSer2b5Gm5WSeu0yurc_PEFj9FqO-1LfTWX2yO4jFGVf7uY4ZA/viewform?usp=pp_url&entry.640102554=${encodeURIComponent(vendorName)}&entry.1264710228=${encodeURIComponent(totalAmountElement.textContent)}&entry.1721171248=${encodeURIComponent(cartItemsString)}`;
+
+      window.open(formUrl, '_blank');
+    });
+
+    // Filter products by search
+    searchInput.addEventListener('input', function() {
+      const searchText = searchInput.value.toLowerCase();
+      const filteredProducts = products.filter(product => product.name.toLowerCase().includes(searchText));
+      displayProducts(filteredProducts);
+    });
+
+    // Initialize the display of all products
+    displayProducts(products);
+  });
+</script>
+
+</body>
+</html>
