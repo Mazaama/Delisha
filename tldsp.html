@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Leaders and DSPs</title>
+  <style>
+    /* Enhanced Styling */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f8ff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      color: #007acc;
+      text-transform: uppercase;
+      border-bottom: 3px solid #007acc;
+      padding-bottom: 10px;
+      margin: 20px 0;
+      font-size: 2.5em;
+    }
+
+    #search-container {
+      margin-bottom: 20px;
+      width: 80%;
+      max-width: 600px;
+    }
+
+    #search-bar {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    #team-container {
+      width: 80%;
+      max-width: 1000px;
+    }
+
+    .team-leader {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      padding: 20px;
+      margin-bottom: 15px;
+      cursor: pointer;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .team-leader:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .team-leader h2 {
+      font-size: 24px;
+      margin: 0;
+    }
+
+    .dsp-list {
+      display: none;
+      padding-left: 25px;
+      margin-top: 10px;
+    }
+
+    .dsp-list li {
+      list-style-type: none;
+      padding: 5px 0;
+      font-size: 16px;
+    }
+
+    .dsp-list li a {
+      text-decoration: none;
+      color: #007acc;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s ease;
+    }
+
+    .dsp-list li a:hover {
+      color: #005f99;
+    }
+
+    .dsp-list li img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .team-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .team-image:hover {
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    /* Modal Styling */
+    #image-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-content {
+      max-width: 80%;
+      max-height: 80%;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 35px;
+      color: #fff;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Team Leaders and DSPs</h1>
+
+  <!-- Search Bar -->
+  <div id="search-container">
+    <input type="text" id="search-bar" placeholder="Search for Team Leaders or DSPs...">
+  </div>
+
+  <!-- Container for team leaders and DSPs -->
+  <div id="team-container"></div>
+
+  <!-- Modal for enlarged image -->
+  <div id="image-modal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modal-img">
+  </div>
+
+  <script>
+    // Data structure to store team leaders, DSPs, and image URLs
+    const teams = [
+      {
+        name: "Team Leader 1",
+        dsps: [
+          { name: "DSP 1", image: "https://via.placeholder.com/30", link: "https://example.com/dsp1" },
+          { name: "DSP 2", image: "https://via.placeholder.com/30", link: "https://example.com/dsp2" },
+          { name: "DSP 3", image: "https://via.placeholder.com/30", link: "https://example.com/dsp3" }
+        ],
+        image: "https://via.placeholder.com/60"
+      },
+      {
+        name: "Team Leader 2",
+        dsps: [
+          { name: "DSP 4", image: "https://via.placeholder.com/30", link: "https://example.com/dsp4" },
+          { name: "DSP 5", image: "https://via.placeholder.com/30", link: "https://example.com/dsp5" },
+          { name: "DSP 6", image: "https://scontent-bom2-1.xx.fbcdn.net/o1/v/t0/f1/m340/genai_m4_prn_odn_v3:upload_img_9181793_09_26_2024_03_09_45_249336_5540974408877552900.jpeg?_nc_ht=scontent-bom2-1.xx.fbcdn.net&_nc_cat=103&ccb=9-4&oh=00_AYBPml9w7ylxuv3HC-gghv82qfSllvP7ESe8RMxof8_m3g&oe=66F71F83&_nc_sid=5b3566" }
+        ],
+        image: "https://scontent-bom2-1.xx.fbcdn.net/o1/v/t0/f1/m340/genai_m4_prn_odn_v3:upload_img_9181793_09_26_2024_03_09_45_249336_5540974408877552900.jpeg?_nc_ht=scontent-bom2-1.xx.fbcdn.net&_nc_cat=103&ccb=9-4&oh=00_AYBPml9w7ylxuv3HC-gghv82qfSllvP7ESe8RMxof8_m3g&oe=66F71F83&_nc_sid=5b3566"
+      }
+    ];
+
+    // Function to display teams and DSPs
+    function displayTeams(filteredTeams = teams) {
+      const container = document.getElementById('team-container');
+      container.innerHTML = ''; // Clear previous content
+
+      filteredTeams.forEach(team => {
+        // Create team leader card
+        const leaderDiv = document.createElement('div');
+        leaderDiv.classList.add('team-leader');
+        leaderDiv.innerHTML = `<h2>${team.name}</h2>`;
+
+        // Create DSP list
+        const dspList = document.createElement('ul');
+        dspList.classList.add('dsp-list');
+
+        team.dsps.forEach(dsp => {
+          const dspItem = document.createElement('li');
+          dspItem.innerHTML = `
+            <a href="${dsp.link}" target="_blank">
+              <img src="${dsp.image}" alt="${dsp.name}"> ${dsp.name}
+            </a>
+          `;
+          dspList.appendChild(dspItem);
+        });
+
+        // Append DSP list to leader div
+        leaderDiv.appendChild(dspList);
+
+        // Add click functionality to toggle DSP visibility
+        leaderDiv.addEventListener('click', () => {
+          dspList.style.display = dspList.style.display === "block" ? "none" : "block";
+        });
+
+        // Create and append image
+        const teamImage = document.createElement('img');
+        teamImage.src = team.image;
+        teamImage.classList.add('team-image');
+
+        // Add click event to enlarge the image
+        teamImage.addEventListener('click', (event) => {
+          event.stopPropagation(); // Prevent toggle action when image is clicked
+          openModal(team.image);
+        });
+
+        leaderDiv.appendChild(teamImage);
+
+        // Append leader div to container
+        container.appendChild(leaderDiv);
+      });
+    }
+
+    // Function to open the image modal
+    function openModal(imageUrl) {
+      const modal = document.getElementById('image-modal');
+      const modalImg = document.getElementById('modal-img');
+      modal.style.display = "flex";
+      modalImg.src = imageUrl;
+    }
+
+    // Close modal when clicking on the close button
+    const closeModal = document.querySelector('.close');
+    closeModal.addEventListener('click', () => {
+      document.getElementById('image-modal').style.display = "none";
+    });
+
+    // Close modal when clicking outside the image
+    const modal = document.getElementById('image-modal');
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+
+    // Call displayTeams to show the content initially
+    displayTeams();
+
+    // Search functionality
+    const searchBar = document.getElementById('search-bar');
+    searchBar.addEventListener('input', function() {
+      const query = searchBar.value.toLowerCase();
+      
+      // Filter teams and DSPs based on the query
+      const filteredTeams = teams.filter(team => {
+        // Check if the team leader's name or any of the DSPs' names match the query
+        const isLeaderMatch = team.name.toLowerCase().includes(query);
+        const filteredDsps = team.dsps.filter(dsp => dsp.name.toLowerCase().includes(query));
+        
+        if (filteredDsps.length > 0 || isLeaderMatch) {
+          return { ...team, dsps: filteredDsps };
+        } else {
+          return null;
+        }
+      }).map(team => ({
+        ...team,
+        dsps: team.dsps.filter(dsp => dsp.name.toLowerCase().includes(query))
+      }));
+
+      displayTeams(filteredTeams);
+    });
+  </script>
+</body>
+</html>
