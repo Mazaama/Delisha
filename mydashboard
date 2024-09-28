@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Grid with Search</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <input type="text" id="search" placeholder="Search products..." onkeyup="filterProducts()">
+    <div class="product-grid" id="product-grid">
+      <!-- Example product containers -->
+      <a href="https://docs.google.com/spreadsheets/d/1rwuVaUMaQy-oSgsJ7OCdLpQjvzFtQAi71Z1puR2C5dc/edit?gid=899525260#gid=899525260" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="DSP REGISTRATION GS" style="background-color: #0C4A60;">
+    <div class="icon">💼📝</div>
+    <p style="color: #FFFFFF;">DSP REGISTRATION GS</p>
+  </div>
+</a>
+
+<a href="https://docs.google.com/spreadsheets/d/15uMPt2WZoH0LNxsJbH_ltrRYUS--M47U9eTIdy2p_s4/edit?gid=1457856051#gid=1457856051" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="TEAM LEADER REGISTRATION GS" style="background-color: #2D5F4D;">
+    <div class="icon">👨‍💼📝</div>
+    <p style="color: #F1E7B6;">TEAM LEADER REGISTRATION GS</p>
+  </div>
+</a>
+      <a href="https://lookerstudio.google.com/reporting/a1826c69-7d3e-4ff9-a8f3-f0e378d52876/page/g2itB" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="TEAM LEADER AND DSP DETAILS LOCATION WISE WEB" style="background-color: #DF3A1F;">
+    <div class="icon">🌍👥💼</div>
+    <p style="color: #FCE77D;">TEAM LEADER AND DSP DETAILS LOCATION WISE WEB</p>
+  </div>
+</a>
+      <a href="https://example.com" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="CUSTOMER REGISTRATION GS" style="background-color: #6A225E;">
+    <div class="icon">🧑‍💼📝</div>
+    <p style="color: #F5C0C0;">CUSTOMER REGISTRATION GS</p>
+  </div>
+</a>
+      <a href="https://docs.google.com/spreadsheets/d/1YHMnE5uOt6Z0hrLjoFnfpZklKfdfCcajUR7gm-E42d4/edit?gid=1461512565#gid=1461512565" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="ALL ORDER DETAILS GS" style="background-color: #384B97;">
+    <div class="icon">📦📄</div>
+    <p style="color: #FFF1E6;">ALL ORDER DETAILS GS</p>
+  </div>
+</a>
+<a href="https://example.com" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="ALL ORDER DETAILS WEB" style="background-color: #F2A827;">
+    <div class="icon">🌐📦📄</div>
+    <p style="color: #402218;">ALL ORDER DETAILS WEB</p>
+  </div>
+</a>
+
+<a href="https://docs.google.com/spreadsheets/d/1xU9nQ1djfUnBvCnnOMb3vIK7k-bpE_nsrnE5VYK_pfI/edit?gid=668188256#gid=668188256" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="DSP WISE ORDER DETAILS" style="background-color: #4B3926;">
+    <div class="icon">💼📦📄</div>
+    <p style="color: #E3EAA7;">DSP WISE ORDER DETAILS</p>
+  </div>
+</a>
+      <a href="https://docs.google.com/spreadsheets/d/1gYGG0wdK3Ks3LnwLWYNl67h2Q-MF7VvkOwMwHkjUcmM/edit?gid=1259475422#gid=1259475422" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="DEMAND DETAILS GS" style="background-color: #2D5F4D;">
+    <div class="icon">📈📋</div>
+    <p style="color: #F1E7B6;">DEMAND DETAILS GS</p>
+  </div>
+</a>
+      <a href="https://docs.google.com/spreadsheets/d/1j4VgEyM_UeiwLlw50wj1pePcWW47xnYEhWUKTGdnVDY/edit?gid=0#gid=0" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="MARKETING GS" style="background-color: #2D5F4D;">
+    <div class="icon">📊🎯</div>
+    <p style="color: #F1E7B6;">MARKETING GS</p>
+  </div>
+</a>
+      <a href="https://example.com" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="MARKETING WEB" style="background-color: #9656A6;">
+    <div class="icon">🌐📊🎯</div>
+    <p style="color: #F8F1F1;">MARKETING WEB</p>
+  </div>
+</a>
+<a href="https://docs.google.com/spreadsheets/d/1BSjR-oTtBz8DDJOFS0QVMHAUfSr3p-ICRDAeB4H-kO4/edit?gid=403000302#gid=403000302" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="VENDOR BILLING SYSTEM GS" style="background-color: #C92572;">
+    <div class="icon">🧾💰</div>
+    <p style="color: #F8F272;">VENDOR BILLING SYSTEM GS</p>
+  </div>
+</a>
+
+<a href="https://example.com" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="VENDOR BILLING SYSTEM WEB" style="background-color: #FFCD3C;">
+    <div class="icon">🌐🧾💰</div>
+    <p style="color: #3C415E;">VENDOR BILLING SYSTEM WEB</p>
+  </div>
+</a>
+      <a href="https://docs.google.com/spreadsheets/d/1lhet2FI9MaAP1RsCTmNPPlHP9gRjhHU-yeUtpGPlQ6U/edit?gid=0#gid=0" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="P&L GS" style="background-color: #2B2D42;">
+    <div class="icon">📊💼</div>
+    <p style="color: #F4B942;">P&L GS</p>
+  </div>
+</a>
+      <a href="https://example.com" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="P&L WEB" style="background-color: #2C3A4C;">
+    <div class="icon">🌐📊💼</div>
+    <p style="color: #A9E4EF;">P&L WEB</p>
+  </div>
+</a>
+      <a href="https://example.com" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="RIVER PARTNER VEHICLE REGISTRATION OR JOINING" style="background-color: #FF6464;">
+    <div class="icon">🚚🧑‍💼📝</div>
+    <p style="color: #082032;">DRIVER PARTNER VEHICLE REGISTRATION</p>
+  </div>
+</a>
+<a href="https://docs.google.com/spreadsheets/d/196HIeuI1xWw58iLixXpTLKZi74mQBpjZs5pTHGBxETQ/edit?gid=1131379763#gid=1131379763" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="PRODUCT CODE SOFTWARE" style="background-color: #1E847F;">
+    <div class="icon">🖥️🔢</div>
+    <p style="color: #F6F7EB;">PRODUCT CODE SOFTWARE</p>
+  </div>
+</a>
+
+<a href="https://docs.google.com/spreadsheets/d/1TpGSAk0d0RFnfuIs1x8rfXAzB4oydg78KREzyMDQTOI/edit?gid=0#gid=0" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="VENDOR BILLING CODE SOFTWARE" style="background-color: #F78C6B;">
+    <div class="icon">🖥️💰🔢</div>
+    <p style="color: #263238;">VENDOR BILLING CODE SOFTWARE</p>
+  </div>
+</a>
+      <a href="https://docs.google.com/spreadsheets/d/1ZNAXmNAc-Lh1yelNKJvRU5uADAQGgcqQiBguSpQ1wSY/edit?gid=0#gid=0" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="WHATSAPP ORDER LINK SOFTWARE" style="background-color: #8478BA;">
+    <div class="icon">📱🛒🔗</div>
+    <p style="color: #FFE5D9;">WHATSAPP ORDER LINK SOFTWARE</p>
+  </div>
+</a>
+      <a href="https://docs.google.com/spreadsheets/d/1K4IyxK2ZCQzsnsa59gqH2m0TWTXdy89la1L1hfnxrpo/edit?gid=0#gid=0" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="PROMOTION LINK SOFTWARE" style="background-color: #FFCC29;">
+    <div class="icon">🎯🔗🖥️ </div>
+    <p style="color: #3D348B;">PROMOTION LINK SOFTWARE</p>
+  </div>
+</a>
+      <a href="https://example.com" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="Payroll" style="background-color: #005F6A;">
+    <div class="icon">💼</div>
+    <p style="color: #E9E8E6;">2D5F4D</p>
+  </div>
+</a>
+<a href="https://example.com" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="Payroll" style="background-color: #7A5840;">
+    <div class="icon">💼</div>
+    <p style="color: #FFEECF;">2D5F4D</p>
+  </div>
+</a>
+
+<a href="https://example.com" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="Payroll" style="background-color: #6F58C9;">
+    <div class="icon">💼</div>
+    <p style="color: #F8F3D4;">2D5F4D</p>
+  </div>
+</a>
+      <a href="https://example.com" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="Payroll" style="background-color: #FF9F29;">
+    <div class="icon">💼</div>
+    <p style="color: #29335C;">2D5F4D</p>
+  </div>
+</a>
+      <a href="https://example.com" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="Payroll" style="background-color: #472F69;">
+    <div class="icon">💼</div>
+    <p style="color: #EAE6FF;">2D5F4D</p>
+  </div>
+</a>
+      <a href="https://example.com" class="product-link" style="text-decoration: none; color: inherit;">
+  <div class="product" data-name="Payroll" style="background-color: #008F7A;">
+    <div class="icon">💼</div>
+    <p style="color: #FFF8E5;">2D5F4D</p>
+  </div>
+</a>
+
+    </div>
+  </div>
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #1A1C23;
+  font-family: 'Arial', sans-serif;
+  color: #fff;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#search {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.product {
+  background-color: #2A2C34;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.product:hover {
+  background-color: #3B3D47;
+}
+
+.icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+p {
+  margin: 5px 0;
+}
+
+@media (max-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+</style>
+  <script>
+  function filterProducts() {
+  let input = document.getElementById('search').value.toLowerCase();
+  let products = document.getElementsByClassName('product');
+
+  for (let i = 0; i < products.length; i++) {
+    let productName = products[i].getAttribute('data-name').toLowerCase();
+    if (productName.includes(input)) {
+      products[i].style.display = "block";
+    } else {
+      products[i].style.display = "none";
+    }
+  }
+}
+
+  </script>
+</body>
+</html>
